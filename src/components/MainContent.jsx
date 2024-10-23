@@ -9,27 +9,31 @@ function MainContent() {
     <div className="Main">
       <h2>Bem Vindo ao " "</h2>
       <div className="carrossel">
-        <div className="elementos">
-          <img src={Text} alt="Text" />
-          NÃO CONSEGUE RESPONDER MENSAGEM
-        </div>
-        <div className="elementos">
-          <img src={Demanda} alt="Demanda" />
-          TEM ALTA DEMANDA DE MENSAGEM
-        </div>
+        <a href="http://localhost:3000/listagemEvents">
+          <div className="elementos">
+            <img src={Text} alt="Text" />
+            Listar Eventos
+          </div>
+        </a>
+
+        <a href="http://localhost:3000/RegisterEvent">
+          <div className="elementos">
+            <img src={Demanda} alt="Demanda" />
+            Criar Evento
+          </div>
+        </a>
+
         <div className="elementos">
           <img src={Mensagem} alt="Mensagem" />
-          PRECISA ENVIAR VÁRIAS MENSAGENS SIMULTANEAS
+          Alterar Eventos
         </div>
         <div className="elementos">
           <img src={Whatsapp} alt="whatsapp" />
-          TEM WHATSAPP COMO SEU MAIOR NEGOCIO
+          Enviar Eventos
         </div>
       </div>
-      <a href="http://localhost:3000/RegisterEvent">
-        <button className="botao">COMUNICADO</button>
-      </a>
-    </div>
+      <button className="botao">COMUNICADO</button>
+    </div >
   );
 }
 

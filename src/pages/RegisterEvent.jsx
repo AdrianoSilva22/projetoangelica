@@ -7,41 +7,7 @@ import Footer from "../components/Footer";
 import CreateEvent from "../components/CreateEvent";
 import MainEvent from '../components/MainEvent';
 function RegisterEvent() {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [imagePath, setImagePath] = useState('');
-  const [scheduling, setScheduling] = useState('');
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setImagePath(URL.createObjectURL(file));
-    }
-  };
-
-  const handleCreate = async () => {
-    const newEvent = {
-      isDeleted: false,
-      title,
-      description,
-      imagePath,
-      scheduling
-    };
-
-    try {
-      await createEvent(newEvent);
-      alert('Evento criado com sucesso!');
-    } catch (error) {
-      console.error('Erro ao criar o evento:', error);
-      alert('Erro ao criar o evento.');
-    }
-  };
-
-
-  useEffect(() => {
-    console.log(title);
-    
-  }, [title])
   return (
     <div className="App">
       {/* <h1>Registrar Evento</h1>
@@ -92,8 +58,8 @@ function RegisterEvent() {
 
       <button onClick={handleCreate}>Salvar Evento</button> */}
       <Header />
-      {/* <CreateEvent /> */}
-      <MainEvent />
+      <CreateEvent />
+      {/* <MainEvent /> */}
       <Footer />
     </div>
   );
