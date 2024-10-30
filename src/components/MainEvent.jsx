@@ -3,6 +3,7 @@ import Lixeira from "../assets/thrash.png";
 import Lapis from "../assets/pencil.png";
 import { useEffect, useState } from "react";
 import { getEvents, deleteEvent } from "../services/eventService";
+import { Link } from "react-router-dom";
 
 function MainEvent() {
   const [data, setData] = useState([]);
@@ -15,16 +16,12 @@ function MainEvent() {
     fetchEvents();
   }, []);
 
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
-
   const handleDelete = async (id) => {
     const confirmDelete = window.confirm("Tem certeza que deseja excluir este evento?");
     if (confirmDelete) {
       try {
         await deleteEvent(id);
-        setData((prevData) => prevData.filter(event => event.id !== id))
+        setData((prevData) => prevData.filter(event => event.id !== id));
         alert("Evento excluído com sucesso!");
       } catch (error) {
         console.error('Erro ao excluir o evento:', error);
@@ -60,13 +57,24 @@ function MainEvent() {
               })}
             </span>
             <span className="celula">
-              <img src={Lapis} alt="Editar" />
+              <Link
+                to="/update-event"
+                state={{
+                  id: event.id,
+                  title: event.title,
+                  description: event.description,
+                  imagePath: event.imagePath,
+                  scheduling: event.scheduling,
+                }}
+              >
+                <img src={Lapis} alt="Editar" />
+              </Link>
             </span>
             <span className="celula">
               <img
                 src={Lixeira}
                 alt="Excluir"
-                onClick={() => handleDelete(event.id)} 
+                onClick={() => handleDelete(event.id)}
                 style={{ cursor: "pointer" }}
               />
             </span>

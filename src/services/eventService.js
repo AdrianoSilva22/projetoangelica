@@ -30,12 +30,12 @@ export const createEvent = async (eventData) => {
     }
   };
   
-  export const updateEvent = async (id, eventData) => {
+  export const updateEvent = async (updatedEvent) => {
     try {
-      const response = await apiService.put(`/Event/${id}`, eventData);
+      const response = await apiService.put('/Event', updatedEvent);
       return response.data;
     } catch (error) {
-      console.error(`Erro ao atualizar o evento com ID ${id}:`, error);
+      console.error(`Erro ao atualizar o evento com ID ${updatedEvent.id}:`, error);
       throw error;
     }
   };
