@@ -52,3 +52,14 @@ span img:hover {
 .indice :last-child{
     border-top-right-radius: 10px;
 }
+
+.event-image {
+    width: 8vw;
+    height: 6vh;
+  }
+  
+  .event-image:hover{
+    width: 13vw;
+    height: 10vh;
+    transition: 2s;
+  }

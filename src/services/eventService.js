@@ -10,10 +10,9 @@ export const createEvent = async (eventData) => {
     }
   };
   
-  // Função para buscar todos os eventos (GET)
   export const getEvents = async () => {
     try {
-      const response = await apiService.get('/Event');
+      const response = await apiService.get('/Event/?PageSize=20&PageNumber=0&Sort=asc');
       return response.data;
     } catch (error) {
       console.error('Erro ao buscar os eventos:', error);
@@ -21,7 +20,6 @@ export const createEvent = async (eventData) => {
     }
   };
   
-  // Função para buscar um evento específico pelo ID (GET)
   export const getEventById = async (id) => {
     try {
       const response = await apiService.get(`/Event/${id}`);
@@ -32,7 +30,6 @@ export const createEvent = async (eventData) => {
     }
   };
   
-  // Função para atualizar um evento pelo ID (PUT)
   export const updateEvent = async (id, eventData) => {
     try {
       const response = await apiService.put(`/Event/${id}`, eventData);
@@ -43,13 +40,14 @@ export const createEvent = async (eventData) => {
     }
   };
   
-  // Função para deletar um evento pelo ID (DELETE)
   export const deleteEvent = async (id) => {
     try {
-      const response = await apiService.delete(`/Event/${id}`);
-      return response.data;
+      const response = await apiService.delete(`/Event?Id=${id}`); 
+      return response.data; 
     } catch (error) {
       console.error(`Erro ao deletar o evento com ID ${id}:`, error);
-      throw error;
+      throw error; 
     }
   };
+
+  

@@ -1,61 +1,77 @@
 import "../styles/MainEvent.css";
-import Lixeira from "../assets/thrash.png"
-import Lapis from "../assets/pencil.png"
+import Lixeira from "../assets/thrash.png";
+import Lapis from "../assets/pencil.png";
+import { useEffect, useState } from "react";
+import { getEvents, deleteEvent } from "../services/eventService";
 
 function MainEvent() {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      const events = await getEvents();
+      setData(events.list);
+    };
+    fetchEvents();
+  }, []);
+
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
+
+  const handleDelete = async (id) => {
+    const confirmDelete = window.confirm("Tem certeza que deseja excluir este evento?");
+    if (confirmDelete) {
+      try {
+        await deleteEvent(id);
+        setData((prevData) => prevData.filter(event => event.id !== id))
+        alert("Evento excluído com sucesso!");
+      } catch (error) {
+        console.error('Erro ao excluir o evento:', error);
+        alert("Erro ao excluir o evento. Tente novamente.");
+      }
+    }
+  };
+
   return (
     <div className="main-event">
       <h1>Eventos</h1>
       <div className="tabela">
         <div className="indice linha">
+          <span className="celula">Imagem</span>
           <span className="celula">Título</span>
           <span className="celula">Descrição</span>
           <span className="celula">Data e hora</span>
           <span className="celula">Editar</span>
           <span className="celula">Excluir</span>
         </div>
-        <div className="linha">
-          <span className="celula">Luau</span>
-          <span className="celula">Um luau para todos!</span>
-          <span className="celula">2024-10-23 17:00</span>
-          <span className="celula"><img src={Lapis} alt="pencil" /></span>
-          <span className="celula"><img src={Lixeira} alt="thrash" /></span>
-        </div>
-        <div className="linha">
-          <span className="celula">Social</span>
-          <span className="celula">R$5 entrada</span>
-          <span className="celula">2024-10-24 19:00</span>
-          <span className="celula"><img src={Lapis} alt="pencil" /></span>
-          <span className="celula"><img src={Lixeira} alt="thrash" /></span>
-        </div>
-        <div className="linha">
-          <span className="celula">Ação social</span>
-          <span className="celula">Sairemos pontualmente</span>
-          <span className="celula">2024-10-25 9:00</span>
-          <span className="celula"><img src={Lapis} alt="pencil" /></span>
-          <span className="celula"><img src={Lixeira} alt="thrash" /></span>
-        </div>
-        <div className="linha">
-          <span className="celula">Entrega de livros</span>
-          <span className="celula">Distribuição nas praças</span>
-          <span className="celula">2024-10-30 9:00</span>
-          <span className="celula"><img src={Lapis} alt="pencil" /></span>
-          <span className="celula"><img src={Lixeira} alt="thrash" /></span>
-        </div>
-        <div className="linha">
-          <span className="celula">Acampamento de carnaval</span>
-          <span className="celula">Vagas limitadas</span>
-          <span className="celula">2025-02-02 8:00</span>
-          <span className="celula"><img src={Lapis} alt="pencil" /></span>
-          <span className="celula"><img src={Lixeira} alt="thrash" /></span>
-        </div>
-        <div className="linha">
-          <span className="celula">Festa das crianças</span>
-          <span className="celula">Cada adulto leva um pratinho</span>
-          <span className="celula">2025-05-010 15:00</span>
-          <span className="celula"><img src={Lapis} alt="pencil" /></span>
-          <span className="celula"><img src={Lixeira} alt="thrash" /></span>
-        </div>
+
+        {data.map((event) => (
+          <div key={event.id} className="linha">
+            <span className="celula">
+              <img src={event.imagePath} alt={event.title} className="imagem-evento" />
+            </span>
+            <span className="celula">{event.title}</span>
+            <span className="celula">{event.description}</span>
+            <span className="celula">
+              {new Date(event.scheduling).toLocaleString("pt-BR", {
+                dateStyle: "short",
+                timeStyle: "short",
+              })}
+            </span>
+            <span className="celula">
+              <img src={Lapis} alt="Editar" />
+            </span>
+            <span className="celula">
+              <img
+                src={Lixeira}
+                alt="Excluir"
+                onClick={() => handleDelete(event.id)} 
+                style={{ cursor: "pointer" }}
+              />
+            </span>
+          </div>
+        ))}
       </div>
     </div>
   );

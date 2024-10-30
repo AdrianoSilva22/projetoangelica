@@ -6,27 +6,27 @@ import { createEvent } from "../services/eventService";
 function CreateEvent() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [image, setImage] = useState(null);
   const [imagePath, setImagePath] = useState("");
   const [date, setDate] = useState("");
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setImage(file);
-      setImagePath(URL.createObjectURL(file));
+      const newPath = `/imagesCultos/${file.name}`; 
+      setImagePath(newPath);
     }
   };
 
   const handleCreate = async (e) => {
-    e.preventDefault(); 
-
+    e.preventDefault();
+    const formattedDate = date.replace("T", ":");
+    
     const newEvent = {
       isDeleted: false,
       title,
       description,
       imagePath,
-      scheduling: date,
+      scheduling: formattedDate,
     };
 
     try {
@@ -34,12 +34,10 @@ function CreateEvent() {
       alert('Evento criado com sucesso!!');
       setTitle("");
       setDescription("");
-      setImage(null);
       setImagePath("");
       setDate("");
     } catch (error) {
       console.error('Erro ao criar o evento:', error);
-      alert('Evento criado com sucesso!');
     }
   };
 
@@ -71,7 +69,7 @@ function CreateEvent() {
             accept="image/*"
             onChange={handleImageChange}
           />
-          {image && <p>Arquivo selecionado: {image.name}</p>}
+          {imagePath && <p>Imagem selecionada: {imagePath}</p>}
         </label>
         <label>
           Data:
