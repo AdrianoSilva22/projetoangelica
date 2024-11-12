@@ -30,6 +30,38 @@ function MainEvent() {
     }
   };
 
+  const handleSendMessage = async (event) => {
+    const payload = {
+      RecipientNumber: "+558199738983",
+      MessageBody: event.description,
+      Variables: {
+        Nome: event.title,
+        Data: new Date(event.scheduling).toLocaleDateString("pt-BR"),
+        Hora: new Date(event.scheduling).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" }),
+      },
+    };
+
+    try {
+      const response = await fetch("http://localhost:5153/send", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          accept: "*/*",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (response.ok) {
+        alert("Mensagem enviada com sucesso!");
+      } else {
+        alert("Erro ao enviar a mensagem. Tente novamente.");
+      }
+    } catch (error) {
+      console.error("Erro ao enviar a mensagem:", error);
+      alert("Erro ao enviar a mensagem. Tente novamente.");
+    }
+  };
+
   return (
     <div className="main-event">
       <h1>Eventos</h1>
@@ -41,6 +73,7 @@ function MainEvent() {
           <span className="celula">Data e hora</span>
           <span className="celula">Editar</span>
           <span className="celula">Excluir</span>
+          <span className="celula">Enviar</span>
         </div>
 
         {data.map((event) => (
@@ -77,6 +110,9 @@ function MainEvent() {
                 onClick={() => handleDelete(event.id)}
                 style={{ cursor: "pointer" }}
               />
+            </span>
+            <span className="celula">
+              <button onClick={() => handleSendMessage(event)}>Enviar</button>
             </span>
           </div>
         ))}
