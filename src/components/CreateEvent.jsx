@@ -15,7 +15,7 @@ function CreateEvent() {
       const newPath = `/imagesCultos/${file.name}`; 
       setImagePath(newPath);
     }
-  };
+  }
 
   const handleCreate = async (e) => {
     e.preventDefault();
